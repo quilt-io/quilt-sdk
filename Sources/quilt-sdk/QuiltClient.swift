@@ -13,4 +13,8 @@ class APIClient {
     init(apiKey: String) {
         self.apiKey = apiKey
     }
+    
+    func helloWorld() {
+        print("Hello Jessica")
+    }
 }
