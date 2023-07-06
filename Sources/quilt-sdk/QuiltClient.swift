@@ -10,7 +10,7 @@ import Foundation
 public class QuiltClient {
     private let apiKey: String
 
-    init(apiKey: String) {
+    public init(apiKey: String) {
         self.apiKey = apiKey
         print("This worked")
     }
