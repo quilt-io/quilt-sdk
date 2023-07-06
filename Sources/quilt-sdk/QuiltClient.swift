@@ -7,7 +7,7 @@
 
 import Foundation
 
-class QuiltClient {
+public class QuiltClient {
     private let apiKey: String
 
     init(apiKey: String) {
