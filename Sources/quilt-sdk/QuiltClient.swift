@@ -12,6 +12,7 @@ class QuiltClient {
 
     init(apiKey: String) {
         self.apiKey = apiKey
+        print("This worked")
     }
     
     public func helloWorld() {
