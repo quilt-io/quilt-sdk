@@ -49,6 +49,37 @@ public class QuiltClient {
 
         task.resume()
     }
+    
+    private func sendData(jsonData: Data) {
+        
+    }
+    
+    // 
+    public func getUserData(userId: String, typesToRead: [String]) async {
+        let healthKitInterface = HealthKitInterface()
+        
+        // Request authorization for the user data
+        healthKitInterface.requestAuthorization()
+        
+        let samples = await withCheckedContinuation { continuation in
+            healthKitInterface.queryForTypes { (sampleDictionary) in
+                        continuation.resume(returning: sampleDictionary)
+                    }
+        }
+        
+        let jsonData = healthKitInterface.transformData(userId: "Test123456", samples: samples)
+        
+        // TODO: create logic around different tables ss
+        
+        let session = URLSession.shared
+        let apiUrl = URL(string: "https://mwqjkgk1m6.execute-api.us-east-1.amazonaws.com/Prod/users/data?table_name=quilt_heart_rate")!
+        var request = URLRequest(url: apiUrl)
+        
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+        
+    }
     // create user function - placed before the widget after app authentication, once a user is authenti
     //
 }
