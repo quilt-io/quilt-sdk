@@ -18,7 +18,7 @@ public class QuiltClient {
         self.api = "https://mwqjkgk1m6.execute-api.us-east-1.amazonaws.com/Prod/"
     }
     
-    func createUser(userId: String) {
+    public func createUser(userId: String) {
         let endpoint = "/users"
         let url = URL(string: self.api + endpoint)!
         let session = URLSession.shared
