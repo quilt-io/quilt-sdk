@@ -22,45 +22,43 @@ public class QuiltClient {
     
     public func createUser(userId: String) {
         let endpoint = "/users"
-            let url = URL(string: api + endpoint)!
-            
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.addValue(apiKey, forHTTPHeaderField: "x-api-key")
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            
-            let bodyData = ["userId": userId]
-            
-            do {
-                let jsonData = try JSONSerialization.data(withJSONObject: bodyData, options: [])
-                request.httpBody = jsonData
-            } catch {
-                print("Error converting data to JSON: \(error)")
+        let queryItems = [URLQueryItem(name: "user_id", value: userId)]
+        
+        var urlComponents = URLComponents(string: api + endpoint)
+        urlComponents?.queryItems = queryItems
+        
+        guard let url = urlComponents?.url else {
+            print("Invalid URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue(apiKey, forHTTPHeaderField: "x-api-key")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print(error)
                 return
             }
             
-            let session = URLSession.shared
-            let task = session.dataTask(with: request) { (data, response, error) in
-                if let error = error {
-                    print(error)
-                    return
-                }
-                
-                guard let httpResponse = response as? HTTPURLResponse else {
-                    let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid response"])
-                    print(error)
-                    return
-                }
-                
-                if (200...299).contains(httpResponse.statusCode) {
-                    print("Successfully created user")
-                } else {
-                    let error = NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Request failed with status code: \(httpResponse.statusCode)"])
-                    print(error)
-                }
+            guard let httpResponse = response as? HTTPURLResponse else {
+                let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid response"])
+                print(error)
+                return
             }
             
-            task.resume()
+            if (200...299).contains(httpResponse.statusCode) {
+                print("Successfully created user")
+            } else {
+                let error = NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Request failed with status code: \(httpResponse.statusCode)"])
+                print(error)
+            }
+        }
+        
+        task.resume()
     }
     
     
