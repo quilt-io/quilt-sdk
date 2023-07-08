@@ -27,6 +27,7 @@ public class QuiltClient {
         var request = URLRequest(url: url)
         
         request.httpMethod = "POST"
+        request.addValue(self.apiKey, forHTTPHeaderField: "x-api-key")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let task = session.dataTask(with: request) { (data, response, error) in
