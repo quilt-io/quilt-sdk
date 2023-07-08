@@ -8,6 +8,7 @@
 import Foundation
 
 // Class that allows for easier interaction with the Quilt API
+@available(macOS 13, *)
 public class QuiltClient {
     private let apiKey: String
     private let api: String
