@@ -19,6 +19,7 @@ public class QuiltClient {
         self.api = "https://mwqjkgk1m6.execute-api.us-east-1.amazonaws.com/Prod/"
     }
     
+    
     public func createUser(userId: String) {
         let endpoint = "/users"
         let url = URL(string: self.api + endpoint)!
@@ -51,11 +52,41 @@ public class QuiltClient {
         task.resume()
     }
     
+    
     private func sendData(jsonData: Data) {
-        
+        let session = URLSession.shared
+        let apiUrl = URL(string: "https://mwqjkgk1m6.execute-api.us-east-1.amazonaws.com/Prod/users/data?table_name=quilt_heart_rate")!
+
+        var request = URLRequest(url: apiUrl)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+
+
+        let task = session.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse else {
+                let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid response"])
+                print(error)
+                return
+            }
+
+            if (200...299).contains(httpResponse.statusCode) {
+                print("Data send successfully!")
+            } else {
+                let error = NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Request failed with status code: \(httpResponse.statusCode)"])
+                print(error)
+            }
+        }
+
+        task.resume()
     }
     
-    // 
+    
     public func getUserData(userId: String, typesToRead: [String]) async {
         let healthKitInterface = HealthKitInterface()
         
@@ -66,21 +97,16 @@ public class QuiltClient {
             healthKitInterface.queryForTypes { (sampleDictionary) in
                         continuation.resume(returning: sampleDictionary)
                     }
+            }
+        let transformedResult = healthKitInterface.transformData(userId: "123", samples: samples)
+
+        switch transformedResult {
+        case .failure(let error):
+            print("Failed to transform data: \(error)")
+            return
+        case.success(let jsonData):
+            sendData(jsonData: jsonData)
         }
         
-        let jsonData = healthKitInterface.transformData(userId: "Test123456", samples: samples)
-        
-        // TODO: create logic around different tables ss
-        
-        let session = URLSession.shared
-        let apiUrl = URL(string: "https://mwqjkgk1m6.execute-api.us-east-1.amazonaws.com/Prod/users/data?table_name=quilt_heart_rate")!
-        var request = URLRequest(url: apiUrl)
-        
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = jsonData
-        
     }
-    // create user function - placed before the widget after app authentication, once a user is authenti
-    //
 }
