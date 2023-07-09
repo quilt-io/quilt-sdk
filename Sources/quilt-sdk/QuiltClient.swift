@@ -9,7 +9,7 @@ import Foundation
 import HealthKit
 
 // Class that allows for easier interaction with the Quilt API
-@available(macOS 13, *)
+@available(macOS 13, iOS 16.0, *)
 public class QuiltClient {
     private let apiKey: String
     private let api: String
