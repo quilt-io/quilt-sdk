@@ -37,7 +37,7 @@ public enum dataTypes {
     case distanceSwimming
     case distanceDownhillSnowSports
     
-    var quantityType: HKQuantityType {
+    public var quantityType: HKQuantityType {
         switch self {
         case .stepCount:
             return HKObjectType.quantityType(forIdentifier: .stepCount)!
