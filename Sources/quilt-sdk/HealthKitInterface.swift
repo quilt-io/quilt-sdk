@@ -11,12 +11,12 @@ import HealthKit
 @available(macOS 13, *)
 struct HealthKitInterface {
     var healthStore: HKHealthStore = HKHealthStore()
-    var typesToRead: [HKObjectType: HKUnit]
-    var typesToWrite: [HKSampleType: HKUnit]
+    var typesToRead: [HKObjectType]
+    var typesToWrite: [HKSampleType]
     
     
     // Default initialize dictionaries of objects to empty
-    init(typesToRead: [HKObjectType: HKUnit] = [:], typesToWrite: [HKSampleType: HKUnit] = [:]) {
+    init(typesToRead: [HKObjectType] = [], typesToWrite: [HKSampleType] = []) {
         self.typesToRead = typesToRead
         self.typesToWrite = typesToWrite
     }
@@ -24,8 +24,8 @@ struct HealthKitInterface {
     
     // Request authorization for initialized data types to read and write
     func requestAuthorization() {
-        let typesToShare = Set(typesToWrite.keys)
-        let typesToRead = Set(typesToRead.keys)
+        let typesToShare = Set(typesToWrite)
+        let typesToRead = Set(typesToRead)
         
         healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { success, error in
             DispatchQueue.main.async {
@@ -46,7 +46,7 @@ struct HealthKitInterface {
         let dispatchGroup = DispatchGroup()
         
         // Query for read types
-        for (type, _) in typesToRead {
+        for type in typesToRead {
             dispatchGroup.enter()
             
             let sampleType = type as! HKSampleType
@@ -65,7 +65,7 @@ struct HealthKitInterface {
         }
         
         // Query for write types
-        for (type, _) in typesToWrite {
+        for type in typesToWrite {
             dispatchGroup.enter()
             
             let query = HKSampleQuery(sampleType: type, predicate: nil, limit: 0, sortDescriptors: nil) { (_, results, error) in
@@ -95,7 +95,7 @@ struct HealthKitInterface {
             for sample in sampleArray {
                 if let quantitySample = sample as? HKQuantitySample {
                     let quantityType = quantitySample.quantityType
-                    if let defaultUnit = typesToRead[quantityType] {
+                    if let defaultUnit = getUnit(quantityType: quantityType) {
                         let quantity = quantitySample.quantity.doubleValue(for: defaultUnit)
                         let startDate = quantitySample.startDate
                         let endDate = quantitySample.endDate

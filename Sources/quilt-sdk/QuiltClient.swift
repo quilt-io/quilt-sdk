@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import HealthKit
 
 // Class that allows for easier interaction with the Quilt API
 @available(macOS 13, *)
@@ -70,7 +71,7 @@ public class QuiltClient {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = jsonData
-
+        request.addValue(apiKey, forHTTPHeaderField: "x-api-key")
 
         let task = session.dataTask(with: request) { (data, response, error) in
             if let error = error {
@@ -96,8 +97,8 @@ public class QuiltClient {
     }
     
     
-    public func getUserData(userId: String, typesToRead: [String]) async {
-        let healthKitInterface = HealthKitInterface()
+    public func getUserData(userId: String, typesToRead: [HKObjectType]) async {
+        let healthKitInterface = HealthKitInterface(typesToRead: typesToRead)
         
         // Request authorization for the user data
         healthKitInterface.requestAuthorization()
