@@ -10,7 +10,7 @@ import HealthKit
 
 // TODO: switch so there is a choice when there are multiple options such as inches vs centimeters
 // TODO: create a test that ensures all of these units work
-@available(macOS 13, *)
+@available(macOS 13, iOS 16.0, *)
 public func getUnit(quantityType: HKQuantityType) -> HKUnit? {
     switch quantityType {
         
