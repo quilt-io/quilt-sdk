@@ -63,15 +63,16 @@ public class QuiltClient {
     }
     
     
-    private func sendData(jsonData: Data) {
+    private func sendData(jsonData: Data, tableName: String) {
         let session = URLSession.shared
-        let apiUrl = URL(string: "https://mwqjkgk1m6.execute-api.us-east-1.amazonaws.com/Prod/users/data?table_name=quilt_heart_rate")!
+        let apiUrl = URL(string: "https://mwqjkgk1m6.execute-api.us-east-1.amazonaws.com/Prod/users/data")!
 
         var request = URLRequest(url: apiUrl)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = jsonData
         request.addValue(apiKey, forHTTPHeaderField: "x-api-key")
+        request.addValue(tableName, forHTTPHeaderField: "table_name")
 
         let task = session.dataTask(with: request) { (data, response, error) in
             if let error = error {
@@ -110,14 +111,14 @@ public class QuiltClient {
             }
         print("Samples!")
         print(samples)
-        if let jsonData = healthKitInterface.transformData(userId: "Test123456", samples: samples) {
+        if let jsonData = healthKitInterface.transformData(userId: "Test12345698698", samples: samples) {
             print("Transformed!")
             if let jsonString = String(data: jsonData, encoding: .utf8) {
                     print(jsonString)
                 } else {
                     print("Failed to convert JSON data to string")
                 }
-            sendData(jsonData: jsonData)
+            sendData(jsonData: jsonData, tableName:"quilt_heart_rate")
         } else {
             print("Failed to get JSON data")
         }
