@@ -110,17 +110,12 @@ public class QuiltClient {
             }
         print("Samples!")
         print(samples)
-        let transformedResult = healthKitInterface.transformData(userId: "123", samples: samples)
-
-        switch transformedResult {
-        case .failure(let error):
-            print("Failed to transform data: \(error)")
-            return
-        case.success(let jsonData):
-            print("transformedResult!")
+        if let jsonData = healthKitInterface.transformData(userId: "Test123456", samples: samples) {
+            print("Transformed!")
             print(jsonData)
             sendData(jsonData: jsonData)
+        } else {
+            print("Failed to get JSON data")
         }
-        
     }
 }

@@ -88,7 +88,7 @@ struct HealthKitInterface {
     }
     
     
-    func transformData(userId: String, samples: [String: [HKSample]]) -> Result<Data, Error> {
+    func transformData(userId: String, samples: [String: [HKSample]]) -> Data? {
         var transformedData: [[String: Any]] = []
         
         for (sampleType, sampleArray) in samples {
@@ -116,9 +116,10 @@ struct HealthKitInterface {
         
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: transformedData, options: [])
-            return .success(jsonData)
+            return jsonData
         } catch {
-            return .failure(error)
+            print("Error serializing JSON data: \(error)")
+            return nil
         }
     }
 }
