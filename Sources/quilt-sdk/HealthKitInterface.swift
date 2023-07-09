@@ -102,8 +102,8 @@ struct HealthKitInterface {
                         
                         let data: [String: Any] = [
                             "user_id": userId,
-//                            "quantity_type": quantityType.identifier, //TODO: make sure this doesn't need to be converted to a string
-                            "quantity": String(describing: quantity),
+                            "quantity_type": quantityType.identifier, //TODO: make sure this doesn't need to be converted to a string
+                            "step_count": String(describing: quantity),
                             "start_date": String(describing: startDate),
                             "end_date": String(describing: endDate)
                         ]
