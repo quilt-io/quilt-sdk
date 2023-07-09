@@ -8,7 +8,8 @@
 import Foundation
 import HealthKit
 
-@available(macOS 13, *)
+//TODO: Check on macOS types to be consistent
+@available(macOS 16, *)
 public enum dataTypes {
     case stepCount
     case pushCount
