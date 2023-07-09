@@ -88,7 +88,7 @@ struct HealthKitInterface {
     }
     
     
-    func transformData(userId: String, samples: [String: [HKSample]]) -> [[String : Any]]? {
+    func transformData(userId: String, samples: [String: [HKSample]]) -> Data? {
         var transformedData: [[String: Any]] = []
         
         for (sampleType, sampleArray) in samples {
@@ -101,11 +101,11 @@ struct HealthKitInterface {
                         let endDate = quantitySample.endDate
                         
                         let data: [String: Any] = [
-                            "userId": userId,
-                            "quantityType": quantityType.identifier, //TODO: make sure this doesn't need to be converted to a string
+                            "user_id": userId,
+//                            "quantity_type": quantityType.identifier, //TODO: make sure this doesn't need to be converted to a string
                             "quantity": String(describing: quantity),
-                            "startDate": String(describing: startDate),
-                            "endDate": String(describing: endDate)
+                            "start_date": String(describing: startDate),
+                            "end_date": String(describing: endDate)
                         ]
                         
                         transformedData.append(data)
@@ -117,7 +117,7 @@ struct HealthKitInterface {
         print(transformedData)
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: transformedData, options: [])
-            return transformedData
+            return jsonData
         } catch {
             print("Error serializing JSON data: \(error)")
             return nil
