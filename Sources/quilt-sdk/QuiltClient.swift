@@ -112,7 +112,11 @@ public class QuiltClient {
         print(samples)
         if let jsonData = healthKitInterface.transformData(userId: "Test123456", samples: samples) {
             print("Transformed!")
-            print(jsonData)
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                    print(jsonString)
+                } else {
+                    print("Failed to convert JSON data to string")
+                }
             sendData(jsonData: jsonData)
         } else {
             print("Failed to get JSON data")
