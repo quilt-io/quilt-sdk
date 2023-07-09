@@ -8,7 +8,7 @@
 import Foundation
 import HealthKit
 
-@available(macOS 13, *)
+@available(macOS 13, iOS 16.0, *)
 struct HealthKitInterface {
     var healthStore: HKHealthStore = HKHealthStore()
     var typesToRead: [HKObjectType]
