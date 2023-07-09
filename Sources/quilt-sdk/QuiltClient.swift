@@ -63,7 +63,7 @@ public class QuiltClient {
     }
     
     
-    private func sendData(jsonData: Data) {
+    private func sendData(jsonData: [[String : Any]]) {
         let session = URLSession.shared
         let apiUrl = URL(string: "https://mwqjkgk1m6.execute-api.us-east-1.amazonaws.com/Prod/users/data?table_name=quilt_heart_rate")!
 
