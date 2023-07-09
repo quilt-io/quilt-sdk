@@ -9,7 +9,7 @@ import Foundation
 import HealthKit
 
 @available(macOS 13, *)
-enum dataTypes {
+public enum dataTypes {
     case stepCount
     case pushCount
     case swimmingStrokeCount
