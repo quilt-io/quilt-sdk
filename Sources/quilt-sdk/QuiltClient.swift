@@ -111,14 +111,14 @@ public class QuiltClient {
         print("Samples!")
         print(samples)
         let transformedResult = healthKitInterface.transformData(userId: "123", samples: samples)
-        print("transformedResult!")
-        print(transformedResult)
 
         switch transformedResult {
         case .failure(let error):
             print("Failed to transform data: \(error)")
             return
         case.success(let jsonData):
+            print("transformedResult!")
+            print(jsonData)
             sendData(jsonData: jsonData)
         }
         
