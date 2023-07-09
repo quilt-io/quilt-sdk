@@ -86,7 +86,7 @@ public class QuiltClient {
             }
 
             if (200...299).contains(httpResponse.statusCode) {
-                print("Data send successfully!")
+                print("Data sent successfully!")
             } else {
                 let error = NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Request failed with status code: \(httpResponse.statusCode)"])
                 print(error)
@@ -108,7 +108,9 @@ public class QuiltClient {
                         continuation.resume(returning: sampleDictionary)
                     }
             }
+        print(samples)
         let transformedResult = healthKitInterface.transformData(userId: "123", samples: samples)
+        print(transformedResult)
 
         switch transformedResult {
         case .failure(let error):
