@@ -108,8 +108,10 @@ public class QuiltClient {
                         continuation.resume(returning: sampleDictionary)
                     }
             }
+        print("Samples!")
         print(samples)
         let transformedResult = healthKitInterface.transformData(userId: "123", samples: samples)
+        print("transformedResult!")
         print(transformedResult)
 
         switch transformedResult {
