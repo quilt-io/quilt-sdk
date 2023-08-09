@@ -17,7 +17,7 @@ public class QuiltClient {
     public init(apiKey: String) {
         self.apiKey = apiKey
         // TODO: specify the api key in the url
-        self.api = "https://mwqjkgk1m6.execute-api.us-east-1.amazonaws.com/Prod/"
+        self.api = "https://3ykxtwpvi2.execute-api.us-east-1.amazonaws.com/Prod/users"
     }
     
     
@@ -103,23 +103,26 @@ public class QuiltClient {
         // Request authorization for the user data
         healthKitInterface.requestAuthorization()
         
-        let samples = await withCheckedContinuation { continuation in
+        let samples: [String: [HKSample]] = await withCheckedContinuation { continuation in
             healthKitInterface.queryForTypes { (sampleDictionary) in
                         continuation.resume(returning: sampleDictionary)
                     }
             }
         print("Samples!")
         print(samples)
-        if let jsonData = healthKitInterface.transformData(userId: "Test12345698698", samples: samples) {
-            print("Transformed!")
-            if let jsonString = String(data: jsonData, encoding: .utf8) {
-                    print(jsonString)
-                } else {
-                    print("Failed to convert JSON data to string")
-                }
-            sendData(jsonData: jsonData, tableName:"quilt_heart_rate")
-        } else {
-            print("Failed to get JSON data")
+        
+        for (sampleType, sampleArray) in samples {
+            if let jsonData = healthKitInterface.transformData(userId: "Test12345698698", samples: sampleArray) {
+                print("Transformed!")
+                if let jsonString = String(data: jsonData, encoding: .utf8) {
+                        print(jsonString)
+                    } else {
+                        print("Failed to convert JSON data to string")
+                    }
+                sendData(jsonData: jsonData, tableName:sampleType)
+            } else {
+                print("Failed to get JSON data")
+            }
         }
     }
 }

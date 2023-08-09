@@ -88,28 +88,32 @@ struct HealthKitInterface {
     }
     
     
-    func transformData(userId: String, samples: [String: [HKSample]]) -> Data? {
+    func transformData(userId: String, samples: [HKSample]) -> Data? {
         var transformedData: [[String: Any]] = []
         
-        for (sampleType, sampleArray) in samples {
-            for sample in sampleArray {
-                if let quantitySample = sample as? HKQuantitySample {
-                    let quantityType = quantitySample.quantityType
-                    if let defaultUnit = getUnit(quantityType: quantityType) {
-                        let quantity = quantitySample.quantity.doubleValue(for: defaultUnit)
-                        let startDate = quantitySample.startDate
-                        let endDate = quantitySample.endDate
-                        
-                        let data: [String: Any] = [
-                            "user_id": userId,
-                            "quantity_type": quantityType.identifier, //TODO: make sure this doesn't need to be converted to a string
-                            "step_count": String(describing: quantity),
-                            "start_date": String(describing: startDate),
-                            "end_date": String(describing: endDate)
-                        ]
-                        
-                        transformedData.append(data)
-                    }
+        for sample in samples {
+            if let quantitySample = sample as? HKQuantitySample {
+                let quantityType = quantitySample.quantityType
+                if let defaultUnit = getUnit(quantityType: quantityType) {
+                    let count = quantitySample.count
+                    let quantity = quantitySample.quantity.doubleValue(for: defaultUnit)
+                    let startDate = quantitySample.startDate
+                    let endDate = quantitySample.endDate
+                    let device = quantitySample.device
+                    let metadata = quantitySample.metadata
+                    
+                    let data: [String: Any] = [
+                        "user_id": userId,
+                        "count": String(describing: count),
+                        "quantity_type": quantityType.identifier,
+                        "quantity": String(describing: quantity),
+                        "start_date": String(describing: startDate),
+                        "end_date": String(describing: endDate),
+                        "device": String(describing: device)
+                        //TODO: convert metadata to a string
+                    ]
+                    
+                    transformedData.append(data)
                 }
             }
         }
