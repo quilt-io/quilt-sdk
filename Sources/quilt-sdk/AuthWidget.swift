@@ -18,6 +18,7 @@ public struct AuthWidget: View {
                 .padding()
             
             Button(isConnectedToHealthKit ? "Connected" : "Connect to Apple Health") {
+                print("Trying to open widget")
                 if isConnectedToHealthKit {
                     // Handle disconnection logic
                 } else {
