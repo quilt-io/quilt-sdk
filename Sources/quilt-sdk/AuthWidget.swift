@@ -10,6 +10,8 @@ import Foundation
 @available(macOS 13, iOS 16.0, *)
 public struct AuthWidget: View {
     @State private var isConnectedToHealthKit = false
+    
+    public init(){}
         
     public var body: some View {
         VStack {
