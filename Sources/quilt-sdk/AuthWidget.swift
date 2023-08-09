@@ -10,6 +10,7 @@ import Foundation
 @available(macOS 13, iOS 16.0, *)
 public struct AuthWidget: View {
     @State private var isConnectedToHealthKit = false
+    @State private var showModal = true
     
     public init(){}
         
@@ -44,5 +45,9 @@ public struct AuthWidget: View {
             .padding()
         }
         .padding()
+        .background(Color.white)
+        .sheet(isPresented: $showModal) {
+            self  // The AuthWidget itself is presented as a sheet
+        }
     }
 }
