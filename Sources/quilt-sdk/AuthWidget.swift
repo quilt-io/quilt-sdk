@@ -45,14 +45,5 @@ public struct AuthWidget: View {
             .padding()
         }
         .padding()
-        .background(Color.white)
-        .sheet(isPresented: $showModal) {
-            self  // The AuthWidget itself is presented as a sheet
-        }
-        .onChange(of: showModal) { newValue in
-            if newValue {
-                showModal = false  // Prevent the sheet from reopening automatically
-            }
-        }
     }
 }
