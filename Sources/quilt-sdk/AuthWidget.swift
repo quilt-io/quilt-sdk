@@ -10,9 +10,7 @@ import Foundation
 @available(macOS 13, iOS 16.0, *)
 public struct AuthWidget: View {
     @State private var isConnectedToHealthKit = false
-    @State private var showModal = true // Show the modal by default
-    
-    public init(){}
+    @State private var showModal = false // Set to false initially
 
     public var body: some View {
         VStack {
@@ -48,8 +46,5 @@ public struct AuthWidget: View {
             .padding()
         }
         .padding()
-        .sheet(isPresented: $showModal) {
-            EmptyView() // An empty view to trigger the sheet presentation
-        }
     }
 }
