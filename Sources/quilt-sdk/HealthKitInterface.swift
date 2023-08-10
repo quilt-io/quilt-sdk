@@ -30,6 +30,8 @@ struct HealthKitInterface {
             healthStore.authorizationStatus(for: type)
         }
         
+        print(readTypesStatus)
+        print(writeTypesStatus)
         return readTypesStatus.allSatisfy { $0 == .sharingAuthorized } &&
                writeTypesStatus.allSatisfy { $0 == .sharingAuthorized }
     }
