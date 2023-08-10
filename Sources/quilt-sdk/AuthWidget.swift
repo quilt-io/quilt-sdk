@@ -22,14 +22,18 @@ public struct AuthWidget: View {
             
             Button(isConnectedToHealthKit ? "Connected" : "Connect to Apple Health") {
                 print("Trying to open widget")
-                if isConnectedToHealthKit {
-                    // Handle disconnection logic
-                } else {
-                    // TODO: fix this later, predefining to simplify initial implementation
-                    let typesToRead = [dataTypes.heartRate.quantityType]
-                    let healthKitInterface = HealthKitInterface(typesToRead: typesToRead)
-                    healthKitInterface.requestAuthorization()
-                }
+                let typesToRead = [dataTypes.heartRate.quantityType]
+                let healthKitInterface = HealthKitInterface(typesToRead: typesToRead)
+                healthKitInterface.requestAuthorization()
+                print(healthKitInterface.arePermissionsGranted())
+//                if isConnectedToHealthKit {
+//                    // Handle disconnection logic
+//                } else {
+//                    // TODO: fix this later, predefining to simplify initial implementation
+//                    let typesToRead = [dataTypes.heartRate.quantityType]
+//                    let healthKitInterface = HealthKitInterface(typesToRead: typesToRead)
+//                    healthKitInterface.requestAuthorization()
+//                }
             }
             .padding()
             .foregroundColor(.white)
