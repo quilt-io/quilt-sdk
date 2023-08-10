@@ -101,7 +101,11 @@ public class QuiltClient {
         let healthKitInterface = HealthKitInterface(typesToRead: typesToRead)
         
         // Request authorization for the user data
-        healthKitInterface.requestAuthorization()
+        healthKitInterface.requestAuthorization { success in
+            if success {
+                print("Connected to HealthKit")
+            }
+        }
         
         let samples: [String: [HKSample]] = await withCheckedContinuation { continuation in
             healthKitInterface.queryForTypes { (sampleDictionary) in
