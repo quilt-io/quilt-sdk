@@ -10,38 +10,37 @@ import Foundation
 @available(macOS 13, iOS 16.0, *)
 public struct AuthWidget: View {
     @State private var isConnectedToHealthKit = false
-    @State private var showModal = true
+    @State private var isAuthorizationRequested = false
     
     public init(){}
-        
+
     public var body: some View {
         VStack {
             Text("Connect Your Data Sources")
                 .font(.headline)
                 .padding()
-            
+
             Button(isConnectedToHealthKit ? "Connected" : "Connect to Apple Health") {
-                print("Trying to open widget")
-                let typesToRead = [dataTypes.heartRate.quantityType]
-                let healthKitInterface = HealthKitInterface(typesToRead: typesToRead)
-                healthKitInterface.requestAuthorization()
-                print(healthKitInterface.arePermissionsGranted())
-//                if isConnectedToHealthKit {
-//                    // Handle disconnection logic
-//                } else {
-//                    // TODO: fix this later, predefining to simplify initial implementation
-//                    let typesToRead = [dataTypes.heartRate.quantityType]
-//                    let healthKitInterface = HealthKitInterface(typesToRead: typesToRead)
-//                    healthKitInterface.requestAuthorization()
-//                }
+                if isConnectedToHealthKit {
+                    // Handle disconnection logic
+                } else {
+                    // TODO: fix this later, predefining to simplify initial implementation
+                    let typesToRead = [dataTypes.heartRate.quantityType]
+                    let healthKitInterface = HealthKitInterface(typesToRead: typesToRead)
+                    healthKitInterface.requestAuthorization { success in
+                        if success {
+                            isConnectedToHealthKit = true
+                        }
+                    }
+                }
             }
             .padding()
             .foregroundColor(.white)
             .background(isConnectedToHealthKit ? Color.green : Color.blue)
             .cornerRadius(10)
-            
+
             Spacer()
-            
+
             Button("Done") {
                 // Close the modal
             }
@@ -49,5 +48,11 @@ public struct AuthWidget: View {
             .padding()
         }
         .padding()
+    }
+
+    private func requestHealthKitAuthorization() {
+        // Your HealthKit authorization logic here
+        // Set isAuthorizationRequested to true after successful authorization
+        isAuthorizationRequested = true
     }
 }

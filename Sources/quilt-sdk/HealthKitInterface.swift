@@ -21,24 +21,18 @@ struct HealthKitInterface {
         self.typesToWrite = typesToWrite
     }
     
-    func arePermissionsGranted() -> Bool {
-        let readTypesStatus = typesToRead.map { type -> HKAuthorizationStatus in
-            healthStore.authorizationStatus(for: type)
-        }
-        
+    // Note: HealthKit only enables viewing write permissions not read permissions
+    func areWritePermissionsGranted() -> Bool {
         let writeTypesStatus = typesToWrite.map { type -> HKAuthorizationStatus in
             healthStore.authorizationStatus(for: type)
         }
         
-        print(readTypesStatus)
-        print(writeTypesStatus)
-        return readTypesStatus.allSatisfy { $0 == .sharingAuthorized } &&
-               writeTypesStatus.allSatisfy { $0 == .sharingAuthorized }
+        return writeTypesStatus.allSatisfy { $0 == .sharingAuthorized }
     }
     
     
     // Request authorization for initialized data types to read and write
-    func requestAuthorization() {
+    func requestAuthorization(completion: @escaping (Bool) -> Void) {
         let typesToShare = Set(typesToWrite)
         let typesToRead = Set(typesToRead)
         
@@ -46,10 +40,10 @@ struct HealthKitInterface {
             DispatchQueue.main.async {
                 if success {
                     print("authorization granted")
-                    // Authorization granted
-                    // Query for types here?
+                    completion(true)
                 } else {
                     print("failed to request authorization")
+                    completion(false)
                 }
             }
         }
