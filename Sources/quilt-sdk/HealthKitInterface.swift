@@ -21,6 +21,19 @@ struct HealthKitInterface {
         self.typesToWrite = typesToWrite
     }
     
+    func arePermissionsGranted() -> Bool {
+        let readTypesStatus = typesToRead.map { type -> HKAuthorizationStatus in
+            healthStore.authorizationStatus(for: type)
+        }
+        
+        let writeTypesStatus = typesToWrite.map { type -> HKAuthorizationStatus in
+            healthStore.authorizationStatus(for: type)
+        }
+        
+        return readTypesStatus.allSatisfy { $0 == .sharingAuthorized } &&
+               writeTypesStatus.allSatisfy { $0 == .sharingAuthorized }
+    }
+    
     
     // Request authorization for initialized data types to read and write
     func requestAuthorization() {
