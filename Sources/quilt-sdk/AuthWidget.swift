@@ -10,10 +10,10 @@ import Foundation
 @available(macOS 13, iOS 16.0, *)
 public struct AuthWidget: View {
     @State private var isConnectedToHealthKit = false
-    @Binding var showModal: Bool // Pass in a binding to showModal
+    @Binding var showWidget: Bool // Pass in a binding to showModal
 
-    public init(showModal: Binding<Bool>) {
-        _showModal = showModal
+    public init(showWidget: Binding<Bool>) {
+        _showWidget = showWidget
     }
 
     public var body: some View {
@@ -44,7 +44,7 @@ public struct AuthWidget: View {
             Spacer()
 
             Button("Done") {
-                showModal = false // Set showModal to false using the binding
+                showWidget = false // Set showModal to false using the binding
             }
             .font(.headline)
             .padding()
