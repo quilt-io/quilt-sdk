@@ -10,9 +10,11 @@ import Foundation
 @available(macOS 13, iOS 16.0, *)
 public struct AuthWidget: View {
     @State private var isConnectedToHealthKit = false
-    @State private var showModal = false // Set to false initially
-    
-    public init(){}
+    @Binding var showModal: Bool // Pass in a binding to showModal
+
+    public init(showModal: Binding<Bool>) {
+        _showModal = showModal
+    }
 
     public var body: some View {
         VStack {
@@ -42,7 +44,7 @@ public struct AuthWidget: View {
             Spacer()
 
             Button("Done") {
-                showModal = false // Set showModal to false to close the modal
+                showModal = false // Set showModal to false using the binding
             }
             .font(.headline)
             .padding()
