@@ -30,10 +30,11 @@ struct HealthKitInterface {
         healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { success, error in
             DispatchQueue.main.async {
                 if success {
+                    print("authorization granted")
                     // Authorization granted
                     // Query for types here?
                 } else {
-                    // Handle authorization failure
+                    print("failed to request authorization")
                 }
             }
         }
