@@ -18,9 +18,11 @@ public struct AuthWidget: View {
 
     public var body: some View {
         VStack {
-            Text("Connect Your Data Sources")
-                .font(.headline)
-                .padding()
+            Text("Let's get connected!")
+                            .font(.title)
+                            .padding(.top, 20)
+                        
+            Spacer()
 
             Button(isConnectedToHealthKit ? "Connected" : "Connect to Apple Health") {
                 if isConnectedToHealthKit {
@@ -46,8 +48,10 @@ public struct AuthWidget: View {
             Button("Done") {
                 showWidget = false // Set showModal to false using the binding
             }
-            .font(.headline)
-            .padding()
+            Text("Powered by Quilt")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .padding(.bottom, 20) 
         }
         .padding()
     }
