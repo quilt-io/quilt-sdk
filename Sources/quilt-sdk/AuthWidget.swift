@@ -10,11 +10,9 @@ import Foundation
 @available(macOS 13, iOS 16.0, *)
 public struct AuthWidget: View {
     @State private var isConnectedToHealthKit = false
-    @Binding var showModal: Bool
-
-    public init(showModal: Binding<Bool>) {
-        _showModal = showModal
-    }
+    @State private var showModal = true // Show the modal by default
+    
+    public init(){}
 
     public var body: some View {
         VStack {
@@ -23,12 +21,16 @@ public struct AuthWidget: View {
                 .padding()
 
             Button(isConnectedToHealthKit ? "Connected" : "Connect to Apple Health") {
-                // TODO: fix this later, predefining to simplify initial implementation
-                let typesToRead = [dataTypes.heartRate.quantityType]
-                let healthKitInterface = HealthKitInterface(typesToRead: typesToRead)
-                healthKitInterface.requestAuthorization { success in
-                    if success {
-                        isConnectedToHealthKit = true
+                if isConnectedToHealthKit {
+                    // Handle disconnection logic
+                } else {
+                    // TODO: fix this later, predefining to simplify initial implementation
+                    let typesToRead = [dataTypes.heartRate.quantityType]
+                    let healthKitInterface = HealthKitInterface(typesToRead: typesToRead)
+                    healthKitInterface.requestAuthorization { success in
+                        if success {
+                            isConnectedToHealthKit = true
+                        }
                     }
                 }
             }
@@ -40,11 +42,14 @@ public struct AuthWidget: View {
             Spacer()
 
             Button("Done") {
-                showModal = false
+                showModal = false // Set showModal to false to close the modal
             }
             .font(.headline)
             .padding()
         }
         .padding()
+        .sheet(isPresented: $showModal) {
+            EmptyView() // An empty view to trigger the sheet presentation
+        }
     }
 }
