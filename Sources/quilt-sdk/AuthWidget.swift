@@ -11,6 +11,8 @@ import Foundation
 public struct AuthWidget: View {
     @State private var isConnectedToHealthKit = false
     @State private var showModal = false // Set to false initially
+    
+    public init(){}
 
     public var body: some View {
         VStack {
