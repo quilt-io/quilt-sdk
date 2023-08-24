@@ -64,10 +64,9 @@ public struct AuthWidget: View {
                             
     
                             var request = URLRequest(url: url)
-                            print(url)
                             request.httpMethod = "POST"
                             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                            request.addValue(apiKey, forHTTPHeaderField: "x-api-key")
+                            request.addValue(apiKey, forHTTPHeaderField: "Authorization")
                             print(request)
                             
                             let task = session.dataTask(with: request) { (data, response, error) in
