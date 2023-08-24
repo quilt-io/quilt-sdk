@@ -54,7 +54,7 @@ public struct AuthWidget: View {
                             
                             let baseURL = URL(string: api)!
 
-                            let userId = URLQueryItem(name: "user_id", value: "12345")
+                            let userId = URLQueryItem(name: "user_id", value: "12412")
                             let sourceId = URLQueryItem(name: "source_id", value: "test_source")
                             
                             let url = baseURL.appending(queryItems: [
@@ -68,6 +68,7 @@ public struct AuthWidget: View {
                             request.httpMethod = "POST"
                             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                             request.addValue(apiKey, forHTTPHeaderField: "x-api-key")
+                            print(request)
                             
                             let task = session.dataTask(with: request) { (data, response, error) in
                                 if let error = error {
