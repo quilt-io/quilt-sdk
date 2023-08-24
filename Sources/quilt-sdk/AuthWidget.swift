@@ -75,7 +75,7 @@ public struct AuthWidget: View {
                                     return
                                 }
                                 print(response)
-//                                print(data)
+                                print(data)
                             }
                             task.resume()
                         }
