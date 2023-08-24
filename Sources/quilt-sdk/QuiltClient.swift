@@ -64,13 +64,15 @@ public class QuiltClient {
     
     private func sendData(jsonData: Data, tableName: String) {
         let session = URLSession.shared
-        let apiUrl = URL(string: "\(api)/data?table_name=\(tableName)")!
+        let apiUrl = URL(string: "\(api)/data?table_name=\(tableName)&source_id=test_source")!
 
         var request = URLRequest(url: apiUrl)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = jsonData
         request.addValue(apiKey, forHTTPHeaderField: "Authorization")
+        
+        // TODO: add source id to this request
         print(jsonData)
         print(request)
 
