@@ -26,7 +26,7 @@ public struct AuthWidget: View {
         self.apiKey = apiKey
         // TODO: specify the api key in the url
         self.api = "https://3ykxtwpvi2.execute-api.us-east-1.amazonaws.com/Prod/users"
-        self.sourceId = source
+        self.sourceId = sourceId
         self.userId = userId
     }
 
