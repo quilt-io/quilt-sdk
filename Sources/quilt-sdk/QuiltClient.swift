@@ -71,6 +71,8 @@ public class QuiltClient {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = jsonData
         request.addValue(apiKey, forHTTPHeaderField: "Authorization")
+        print(jsonData)
+        print(request)
 
         let task = session.dataTask(with: request) { (data, response, error) in
             if let error = error {
@@ -111,8 +113,6 @@ public class QuiltClient {
                         continuation.resume(returning: sampleDictionary)
                     }
             }
-        print("Samples!")
-        print(samples)
         
         for (sampleType, sampleArray) in samples {
             if let jsonData = healthKitInterface.transformData(userId: userId, samples: sampleArray) {

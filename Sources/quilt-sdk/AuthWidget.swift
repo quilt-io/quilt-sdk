@@ -44,6 +44,8 @@ public struct AuthWidget: View {
                     // TODO: fix this later, predefining to simplify initial implementation
                     Task {
                         let typesToRead = [dataTypes.heartRate.quantityType]
+                        
+                        // TODO: need to change to take the source id
                         let client = QuiltClient(apiKey: apiKey)
                         await client.getUserData(userId: "1222", typesToRead: typesToRead)
                     }
