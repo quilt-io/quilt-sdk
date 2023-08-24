@@ -15,18 +15,18 @@ public struct AuthWidget: View {
     // TODO: figure out if API keys need to be used here to initialize
     private let apiKey: String
     private let api: String
-    private let source: String
+    private let sourceId: String
     
     // TODO: figure out where the user ID should be passed
     private let userId: String
     
 
-    public init(showWidget: Binding<Bool>, apiKey: String, source: String, userId: String) {
+    public init(showWidget: Binding<Bool>, apiKey: String, sourceId: String, userId: String) {
         _showWidget = showWidget
         self.apiKey = apiKey
         // TODO: specify the api key in the url
         self.api = "https://3ykxtwpvi2.execute-api.us-east-1.amazonaws.com/Prod/users"
-        self.source = source
+        self.sourceId = source
         self.userId = userId
     }
 
@@ -54,8 +54,8 @@ public struct AuthWidget: View {
                             
                             let baseURL = URL(string: api)!
 
-                            let userId = URLQueryItem(name: "user_id", value: "12412")
-                            let sourceId = URLQueryItem(name: "source_id", value: "test_source")
+                            let userId = URLQueryItem(name: "user_id", value: userId)
+                            let sourceId = URLQueryItem(name: "source_id", value: sourceId)
                             
                             let url = baseURL.appending(queryItems: [
                                 userId,
@@ -67,7 +67,6 @@ public struct AuthWidget: View {
                             request.httpMethod = "POST"
                             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                             request.addValue(apiKey, forHTTPHeaderField: "Authorization")
-                            print(request)
                             
                             let task = session.dataTask(with: request) { (data, response, error) in
                                 if let error = error {
