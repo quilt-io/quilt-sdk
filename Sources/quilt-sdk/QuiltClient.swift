@@ -16,7 +16,6 @@ public class QuiltClient {
 
     public init(apiKey: String) {
         self.apiKey = apiKey
-        // TODO: specify the api key in the url
         self.api = "https://3ykxtwpvi2.execute-api.us-east-1.amazonaws.com/Prod/users"
     }
     
@@ -35,7 +34,7 @@ public class QuiltClient {
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.addValue(apiKey, forHTTPHeaderField: "x-api-key")
+        request.addValue(apiKey, forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let session = URLSession.shared
@@ -65,13 +64,13 @@ public class QuiltClient {
     
     private func sendData(jsonData: Data, tableName: String) {
         let session = URLSession.shared
-        let apiUrl = URL(string: "https://mwqjkgk1m6.execute-api.us-east-1.amazonaws.com/Prod/users/data?table_name=\(tableName)")!
+        let apiUrl = URL(string: "\(api)/data?table_name=\(tableName)")!
 
         var request = URLRequest(url: apiUrl)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = jsonData
-        request.addValue(apiKey, forHTTPHeaderField: "x-api-key")
+        request.addValue(apiKey, forHTTPHeaderField: "Authorization")
 
         let task = session.dataTask(with: request) { (data, response, error) in
             if let error = error {

@@ -24,7 +24,6 @@ public struct AuthWidget: View {
     public init(showWidget: Binding<Bool>, apiKey: String, sourceId: String, userId: String) {
         _showWidget = showWidget
         self.apiKey = apiKey
-        // TODO: specify the api key in the url
         self.api = "https://3ykxtwpvi2.execute-api.us-east-1.amazonaws.com/Prod/users"
         self.sourceId = sourceId
         self.userId = userId
@@ -43,42 +42,43 @@ public struct AuthWidget: View {
                     // Handle disconnection logic
                 } else {
                     // TODO: fix this later, predefining to simplify initial implementation
-                    let typesToRead = [dataTypes.heartRate.quantityType]
-                    let healthKitInterface = HealthKitInterface(typesToRead: typesToRead)
-                    healthKitInterface.requestAuthorization { success in
-                        if success {
-                            isConnectedToHealthKit = true
-                            print("Connected to HeslthKit")
-                            print("Starting URL session")
-                            let session = URLSession.shared
-                            
-                            let baseURL = URL(string: api)!
-
-                            let userId = URLQueryItem(name: "user_id", value: userId)
-                            let sourceId = URLQueryItem(name: "source_id", value: sourceId)
-                            
-                            let url = baseURL.appending(queryItems: [
-                                userId,
-                                sourceId
-                            ])
-                            
-    
-                            var request = URLRequest(url: url)
-                            request.httpMethod = "POST"
-                            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                            request.addValue(apiKey, forHTTPHeaderField: "Authorization")
-                            
-                            let task = session.dataTask(with: request) { (data, response, error) in
-                                if let error = error {
-                                    print(error)
-                                    return
-                                }
-                                print(response)
-                                print(data)
-                            }
-                            task.resume()
-                        }
+                    Task {
+                        let typesToRead = [dataTypes.heartRate.quantityType]
+                        let client = QuiltClient(apiKey: apiKey)
+                        await client.getUserData(userId: "1222", typesToRead: typesToRead)
                     }
+//                    let healthKitInterface = HealthKitInterface(typesToRead: typesToRead)
+//                    healthKitInterface.requestAuthorization { success in
+//                        if success {
+//                            isConnectedToHealthKit = true
+//                            print("Connected to HeslthKit")
+//                            print("Starting URL session")
+                    
+//                            let session = URLSession.shared
+//                            let baseURL = URL(string: api)!
+//                            let userId = URLQueryItem(name: "user_id", value: userId)
+//                            let sourceId = URLQueryItem(name: "source_id", value: sourceId)
+//                            let url = baseURL.appending(queryItems: [
+//                                userId,
+//                                sourceId
+//                            ])
+//                            var request = URLRequest(url: url)
+//
+//                            request.httpMethod = "POST"
+//                            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//                            request.addValue(apiKey, forHTTPHeaderField: "Authorization")
+//
+//                            let task = session.dataTask(with: request) { (data, response, error) in
+//                                if let error = error {
+//                                    print(error)
+//                                    return
+//                                }
+//                                print(response)
+//                                print(data)
+//                            }
+//                            task.resume()
+//                        }
+//                    }
                 
 //                    QuiltClient(apiKey: apiKey)
 //                    QuiltClient.getUserData(<#T##self: QuiltClient##QuiltClient#>)
