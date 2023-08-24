@@ -116,7 +116,7 @@ public class QuiltClient {
         print(samples)
         
         for (sampleType, sampleArray) in samples {
-            if let jsonData = healthKitInterface.transformData(userId: "Test12345698698", samples: sampleArray) {
+            if let jsonData = healthKitInterface.transformData(userId: userId, samples: sampleArray) {
                 print("Transformed!")
                 if let jsonString = String(data: jsonData, encoding: .utf8) {
                         print(jsonString)

@@ -11,9 +11,23 @@ import Foundation
 public struct AuthWidget: View {
     @State private var isConnectedToHealthKit = false
     @Binding var showWidget: Bool // Pass in a binding to showModal
+    
+    // TODO: figure out if API keys need to be used here to initialize
+    private let apiKey: String
+    private let api: String
+    private let source: String
+    
+    // TODO: figure out where the user ID should be passed
+    private let userId: String
+    
 
-    public init(showWidget: Binding<Bool>) {
+    public init(showWidget: Binding<Bool>, apiKey: String, source: String, userId: String) {
         _showWidget = showWidget
+        self.apiKey = apiKey
+        // TODO: specify the api key in the url
+        self.api = "https://3ykxtwpvi2.execute-api.us-east-1.amazonaws.com/Prod/users"
+        self.source = source
+        self.userId = userId
     }
 
     public var body: some View {
@@ -34,8 +48,38 @@ public struct AuthWidget: View {
                     healthKitInterface.requestAuthorization { success in
                         if success {
                             isConnectedToHealthKit = true
+                            print("Connected to HeslthKit")
+                            print("Starting URL session")
+                            let session = URLSession.shared
+                            
+                            let baseURL = URL(string: api)!
+
+                            let userId = URLQueryItem(name: "user_id", value: "12345")
+                            let sourceId = URLQueryItem(name: "source_id", value: "test_source")
+                            
+                            let url = baseURL.appending(queryItems: [
+                                userId,
+                                sourceId
+                            ])
+                            
+    
+                            var request = URLRequest(url: url)
+                            request.httpMethod = "POST"
+                            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                            request.addValue(apiKey, forHTTPHeaderField: "x-api-key")
+                            
+                            let task = session.dataTask(with: request) { (data, response, error) in
+                                if let error = error {
+                                    print(error)
+                                    return
+                                }
+                                print(response)
+                            }
                         }
                     }
+                
+//                    QuiltClient(apiKey: apiKey)
+//                    QuiltClient.getUserData(<#T##self: QuiltClient##QuiltClient#>)
                 }
             }
             .padding()
@@ -48,10 +92,13 @@ public struct AuthWidget: View {
             Button("Done") {
                 showWidget = false // Set showModal to false using the binding
             }
+            
+            Spacer()
+            
             Text("Powered by Quilt")
                             .font(.subheadline)
                             .foregroundColor(.gray)
-                            .padding(.bottom, 20) 
+                            .padding(.bottom, 20)
         }
         .padding()
     }
