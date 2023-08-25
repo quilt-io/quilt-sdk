@@ -64,7 +64,8 @@ public class QuiltClient {
     
     private func sendData(jsonData: Data, tableName: String) {
         let session = URLSession.shared
-        let apiUrl = URL(string: "\(api)/data?table_name=\(tableName)&source_id=test_source")!
+//        let apiUrl = URL(string: "\(api)/data?table_name=\(tableName)&source_id=test_source")!
+        let apiUrl = URL(string: "\(api)/data?table_name=heart-rate&source_id=test_source")!
 
         var request = URLRequest(url: apiUrl)
         request.httpMethod = "POST"
@@ -124,6 +125,7 @@ public class QuiltClient {
                     } else {
                         print("Failed to convert JSON data to string")
                     }
+                print(jsonData)
                 sendData(jsonData: jsonData, tableName:sampleType)
             } else {
                 print("Failed to get JSON data")
