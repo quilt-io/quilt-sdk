@@ -12,20 +12,15 @@ public struct AuthWidget: View {
     @State private var isConnectedToHealthKit = false
     @Binding var showWidget: Bool // Pass in a binding to showModal
     
-    // TODO: figure out if API keys need to be used here to initialize
-    private let apiKey: String
-    private let api: String
-    private let sourceId: String
+    private let quiltClient: QuiltClient
     
     // TODO: figure out where the user ID should be passed
     private let userId: String
     
 
-    public init(showWidget: Binding<Bool>, apiKey: String, sourceId: String, userId: String) {
+    public init(showWidget: Binding<Bool>, quiltClient: QuiltClient, userId: String) {
         _showWidget = showWidget
-        self.apiKey = apiKey
-        self.api = "https://3ykxtwpvi2.execute-api.us-east-1.amazonaws.com/Prod/users"
-        self.sourceId = sourceId
+        self.quiltClient = quiltClient
         self.userId = userId
     }
 
@@ -46,8 +41,7 @@ public struct AuthWidget: View {
                         let typesToRead = [dataTypes.heartRate.quantityType]
                         
                         // TODO: need to change to take the source id
-                        let client = QuiltClient(apiKey: apiKey)
-                        await client.getUserData(userId: "1222", typesToRead: typesToRead)
+                        await quiltClient.getUserData(userId: userId, typesToRead: typesToRead)
                     }
 //                    let healthKitInterface = HealthKitInterface(typesToRead: typesToRead)
 //                    healthKitInterface.requestAuthorization { success in

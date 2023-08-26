@@ -13,8 +13,10 @@ import HealthKit
 public class QuiltClient {
     private let apiKey: String
     private let api: String
+    private let sourceId: String
 
-    public init(apiKey: String) {
+    public init(apiKey: String, sourceId: String) {
+        self.sourceId = sourceId
         self.apiKey = apiKey
         self.api = "https://3ykxtwpvi2.execute-api.us-east-1.amazonaws.com/Prod/users"
     }
@@ -66,7 +68,7 @@ public class QuiltClient {
         let session = URLSession.shared
 //        let apiUrl = URL(string: "\(api)/data?table_name=\(tableName)&source_id=test_source")!
         let apiUrl = URL(string: "\(api)/data?table_name=heart-rate&source_id=test_source")!
-
+        print(apiUrl)
         var request = URLRequest(url: apiUrl)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
