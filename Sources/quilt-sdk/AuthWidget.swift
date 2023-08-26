@@ -38,6 +38,7 @@ public struct AuthWidget: View {
                     Task {
                         let typesToRead = [dataTypes.heartRate.quantityType]
                         await quiltClient.getUserData(userId: userId, typesToRead: typesToRead)
+                        isConnectedToHealthKit = true
                     }
                 }
             }
