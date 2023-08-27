@@ -49,9 +49,9 @@ public struct AuthWidget: View {
                 }) {
                     HStack {
                         Image("Apple_Health_Icon")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 30, height: 30)
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .frame(width: 30, height: 30)
                         
                         Text(isConnectedToHealthKit ? "Connected" : "Connect to Apple Health")
                             .foregroundColor(.blue)
