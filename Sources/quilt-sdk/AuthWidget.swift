@@ -27,7 +27,7 @@ public struct AuthWidget: View {
             Text("Let's get connected!")
                 .font(.title)
                 .padding(.top, 20)
-            
+            Image("Apple_Health_Icon")
             Spacer()
 
             ZStack {
