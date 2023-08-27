@@ -20,7 +20,6 @@ public class QuiltClient {
         self.api = "https://3ykxtwpvi2.execute-api.us-east-1.amazonaws.com/Prod/users"
     }
     
-    
     public func createUser(userId: String) {
         let endpoint = "/users"
         let queryItems = [URLQueryItem(name: "user_id", value: userId)]

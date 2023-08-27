@@ -25,28 +25,43 @@ public struct AuthWidget: View {
     public var body: some View {
         VStack {
             Text("Let's get connected!")
-                            .font(.title)
-                            .padding(.top, 20)
-                        
+                .font(.title)
+                .padding(.top, 20)
+            
             Spacer()
 
-            Button(isConnectedToHealthKit ? "Connected" : "Connect to Apple Health") {
-                if isConnectedToHealthKit {
-                    // Handle disconnection logic
-                } else {
-                    // TODO: fix this later, predefining to simplify initial implementation
-                    Task {
-                        let typesToRead = [dataTypes.heartRate.quantityType]
-                        await quiltClient.getUserData(userId: userId, typesToRead: typesToRead)
-                        isConnectedToHealthKit = true
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.gray, lineWidth: 2)
+                    .frame(height: 60)
+                
+                Button(action: {
+                    if isConnectedToHealthKit {
+                        // Handle disconnection logic
+                    } else {
+                        // TODO: fix this later, predefining to simplify initial implementation
+                        Task {
+                            let typesToRead = [dataTypes.heartRate.quantityType]
+                            await quiltClient.getUserData(userId: userId, typesToRead: typesToRead)
+                            isConnectedToHealthKit = true
+                        }
+                    }
+                }) {
+                    HStack {
+                        Image("Apple_Health_Icon")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
+                        
+                        Text(isConnectedToHealthKit ? "Connected" : "Connect to Apple Health")
+                            .foregroundColor(.blue)
+                            .fontWeight(.bold)
                     }
                 }
+                .frame(maxWidth: .infinity)
             }
             .padding()
-            .foregroundColor(.white)
-            .background(isConnectedToHealthKit ? Color.green : Color.blue)
-            .cornerRadius(10)
-
+            
             Spacer()
 
             Button("Done") {
@@ -56,9 +71,9 @@ public struct AuthWidget: View {
             Spacer()
             
             Text("Powered by Quilt")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                            .padding(.bottom, 20)
+                .font(.subheadline)
+                .foregroundColor(.gray)
+                .padding(.bottom, 20)
         }
         .padding()
     }
