@@ -27,7 +27,6 @@ public struct AuthWidget: View {
             Text("Let's get connected!")
                 .font(.title)
                 .padding(.top, 20)
-            Image("Resources/Icon.png", bundle: Bundle.module)
             Spacer()
 
             ZStack {
@@ -48,10 +47,10 @@ public struct AuthWidget: View {
                     }
                 }) {
                     HStack {
-                        Image("Icon")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 30, height: 30)
+                        Image("Icon", bundle: .module)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
                         
                         Text(isConnectedToHealthKit ? "Connected" : "Connect to Apple Health")
                             .foregroundColor(.blue)
