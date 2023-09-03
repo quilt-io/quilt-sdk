@@ -10,16 +10,18 @@ import UIKit
 
 @available(iOS 16.0, *)
 struct SwiftUIView: View {
+    @State private var showWidget = false // Declare the state here
+    let quiltClient = QuiltClient(apiKey: "XcD8OjkR2V7ZaWiCdzOY77bpxL34afUN9qyIClTA", sourceId: "test_source")
+    
     var body: some View {
-        VStack{
-            Text("Hello")
-            Image("Icon", bundle: .module)
-//            if let path = Bundle.module.path(forResource: "Icon", ofType: "png"),
-//                let image = UIImage(contentsOfFile: path) {
-//                self.init("Icon")
-//            }
-//            self.init(nsImage: image)
-            Text("Bye")
+        Button("Open Modal") {
+            showWidget = true
+        }
+        .sheet(isPresented: $showWidget) {
+            AuthWidget(
+                showWidget: $showWidget,
+                quiltClient: quiltClient,
+                userId: "1111")
         }
     }
 }
