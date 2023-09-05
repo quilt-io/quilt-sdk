@@ -21,7 +21,9 @@ struct SwiftUIView: View {
             AuthWidget(
                 showWidget: $showWidget,
                 quiltClient: quiltClient,
-                userId: "1111")
+                userId: "1111",
+                dataSources: ["Health Kit"]
+            )
         }
     }
 }
