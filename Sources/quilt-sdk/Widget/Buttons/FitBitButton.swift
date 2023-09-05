@@ -53,6 +53,6 @@ struct FitbitButtonView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .frame(width: 300)
+        .frame(width: 330)
     }
 }
