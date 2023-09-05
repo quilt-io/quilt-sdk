@@ -2,14 +2,14 @@
 //  SwiftUIView.swift
 //  
 //
-//  Created by Jessica Petrochuk on 8/27/23.
+//  Created by Jessica Petrochuk on 9/5/23.
 //
 
 import SwiftUI
 import UIKit
 
 @available(iOS 16.0, *)
-struct SwiftUIView: View {
+struct TestView: View {
     @State private var showWidget = false // Declare the state here
     let quiltClient = QuiltClient(apiKey: "XcD8OjkR2V7ZaWiCdzOY77bpxL34afUN9qyIClTA", sourceId: "test_source")
     
@@ -29,8 +29,8 @@ struct SwiftUIView: View {
 }
 
 @available(iOS 16.0, *)
-struct SwiftUIView_Previews: PreviewProvider {
+struct TestView_Previews: PreviewProvider {
     static var previews: some View {
-        SwiftUIView()
+        TestView()
     }
 }
