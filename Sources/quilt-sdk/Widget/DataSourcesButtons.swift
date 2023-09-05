@@ -9,14 +9,14 @@ import SwiftUI
 
 @available(macOS 13, iOS 16.0, *)
 struct DataSourcesButtonsView: View {
-    @Binding var isConnectedToHealthKit: Bool
+    @State private var isConnectedToHealthKit = false
+    @State private var isConnectedToFitbit = false
     
     let quiltClient: QuiltClient
     let userId: String
     let dataSources: [String]
     
-    init(dataSources: [String], isConnectedToHealthKit: Binding<Bool>, quiltClient: QuiltClient, userId: String) {
-        self._isConnectedToHealthKit = isConnectedToHealthKit // Initialize isConnectedToHealthKit as a Binding
+    init(dataSources: [String], quiltClient: QuiltClient, userId: String) {
         self.quiltClient = quiltClient
         self.userId = userId
         self.dataSources = dataSources
@@ -26,8 +26,10 @@ struct DataSourcesButtonsView: View {
         VStack(spacing: 20) {
             ForEach(dataSources, id: \.self) { dataSource in
                 switch dataSource {
-                    case "Health Kit":
-                        HealthKitButtonView(isConnectedToHealthKit: _isConnectedToHealthKit, quiltClient: quiltClient, userId: userId)
+                case "Health Kit":
+                    HealthKitButtonView(isConnectedToHealthKit: $isConnectedToHealthKit, quiltClient: quiltClient, userId: userId)
+                case "Fit Bit":
+                    FitBitButtonView(isConnectedToFitbit: $isConnectedToFitbit, quiltClient: quiltClient, userId: userId)
                 default:
                     Spacer()
                 }

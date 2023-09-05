@@ -39,19 +39,19 @@ struct HealthKitButtonView: View {
                 }
             }) {
                 HStack(spacing: 20) {
-                    Image("Icon", bundle: .module)
+                    Image("HealthKitIcon", bundle: .module)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 30, height: 30)
-
-                    Text(isConnectedToHealthKit ? "Connected" : "Connect to Apple Health")
+                        .padding(.leading, 30)
+                    
+                    Text(isConnectedToHealthKit ? "Connected to Apple Health" : "Connect to Apple Health")
                         .foregroundColor(Color(red: 221/255, green: 221/255, blue: 221/255))
                         .fontWeight(.bold)
-
                 }
             }
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding()
+        .frame(width: 300)
     }
 }

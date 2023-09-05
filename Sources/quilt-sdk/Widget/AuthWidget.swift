@@ -9,7 +9,6 @@ import Foundation
 
 @available(macOS 13, iOS 16.0, *)
 public struct AuthWidget: View {
-    @State private var isConnectedToHealthKit = false
     @Binding var showWidget: Bool
     
     private let quiltClient: QuiltClient
@@ -34,7 +33,7 @@ public struct AuthWidget: View {
                     .padding(.top, 20)
                 Spacer()
                 
-                DataSourcesButtonsView(dataSources: dataSources, isConnectedToHealthKit: $isConnectedToHealthKit, quiltClient: quiltClient, userId: userId)
+                DataSourcesButtonsView(dataSources: dataSources, quiltClient: quiltClient, userId: userId)
                 
                 Spacer()
 

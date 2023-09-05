@@ -22,7 +22,7 @@ struct SwiftUIView: View {
                 showWidget: $showWidget,
                 quiltClient: quiltClient,
                 userId: "1111",
-                dataSources: ["Health Kit"]
+                dataSources: ["Health Kit", "Fit Bit"]
             )
         }
     }
