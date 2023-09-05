@@ -8,7 +8,7 @@
 import SwiftUI
 
 @available(macOS 13, iOS 16.0, *)
-struct FitBitButtonView: View {
+struct FitbitButtonView: View {
     @Binding var isConnectedToFitbit: Bool
     
     let quiltClient: QuiltClient

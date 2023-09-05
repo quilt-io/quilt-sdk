@@ -28,8 +28,8 @@ struct DataSourcesButtonsView: View {
                 switch dataSource {
                 case "Health Kit":
                     HealthKitButtonView(isConnectedToHealthKit: $isConnectedToHealthKit, quiltClient: quiltClient, userId: userId)
-                case "Fit Bit":
-                    FitBitButtonView(isConnectedToFitbit: $isConnectedToFitbit, quiltClient: quiltClient, userId: userId)
+                case "Fitbit":
+                    FitbitButtonView(isConnectedToFitbit: $isConnectedToFitbit, quiltClient: quiltClient, userId: userId)
                 default:
                     Spacer()
                 }
