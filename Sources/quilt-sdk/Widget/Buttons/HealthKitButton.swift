@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HealthKit
 
 @available(macOS 13, iOS 16.0, *)
 struct HealthKitButtonView: View {
@@ -13,11 +14,13 @@ struct HealthKitButtonView: View {
     
     let quiltClient: QuiltClient
     let userId: String
+    let typesToRead: [HKObjectType]
     
-    init(isConnectedToHealthKit: Binding<Bool>, quiltClient: QuiltClient, userId: String) {
+    init(isConnectedToHealthKit: Binding<Bool>, quiltClient: QuiltClient, userId: String, typesToRead: [HKObjectType]) {
         self._isConnectedToHealthKit = isConnectedToHealthKit
         self.quiltClient = quiltClient
         self.userId = userId
+        self.typesToRead = typesToRead
     }
     
     var body: some View {
@@ -30,9 +33,7 @@ struct HealthKitButtonView: View {
                 if isConnectedToHealthKit {
                     // Handle disconnection logic
                 } else {
-                    // TODO: fix this later, predefining to simplify initial implementation
                     Task {
-                        let typesToRead = [dataTypes.heartRate.quantityType]
                         await quiltClient.getUserData(userId: userId, typesToRead: typesToRead)
                         isConnectedToHealthKit = true
                     }

@@ -6,6 +6,7 @@
 //
 import SwiftUI
 import Foundation
+import HealthKit
 
 @available(macOS 13, iOS 16.0, *)
 public struct AuthWidget: View {
@@ -14,12 +15,14 @@ public struct AuthWidget: View {
     private let quiltClient: QuiltClient
     private let userId: String
     private let dataSources: [String]
+    private let typesToRead: [HKObjectType]
 
-    public init(showWidget: Binding<Bool>, quiltClient: QuiltClient, userId: String, dataSources: [String]) {
+    public init(showWidget: Binding<Bool>, quiltClient: QuiltClient, userId: String, dataSources: [String], typesToRead: [HKObjectType]) {
         _showWidget = showWidget
         self.quiltClient = quiltClient
         self.userId = userId
         self.dataSources = dataSources
+        self.typesToRead = typesToRead
     }
 
     public var body: some View {
@@ -33,7 +36,7 @@ public struct AuthWidget: View {
                     .padding(.top, 20)
                 Spacer()
                 
-                DataSourcesButtonsView(dataSources: dataSources, quiltClient: quiltClient, userId: userId)
+                DataSourcesButtonsView(dataSources: dataSources, quiltClient: quiltClient, userId: userId, typesToRead: typesToRead)
                 
                 Spacer()
 
