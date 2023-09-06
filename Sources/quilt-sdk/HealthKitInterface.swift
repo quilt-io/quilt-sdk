@@ -111,11 +111,11 @@ struct HealthKitInterface {
                     let endDate = quantitySample.endDate
                     let device = quantitySample.device
                     let metadata = quantitySample.metadata
-                    let id = quantitySample.uuid.uuidString
-                    print(id)
+                    let observation_id = quantitySample.uuid.uuidString
                     
                     let data: [String: Any] = [
                         "user_id": userId,
+                        "observation_id": observation_id,
                         "count": String(describing: count),
                         "quantity_type": quantityType.identifier,
                         "quantity": String(describing: quantity),
