@@ -113,6 +113,7 @@ public class QuiltClient {
                         continuation.resume(returning: sampleDictionary)
                     }
             }
+        print(samples)
         
         for (sampleType, sampleArray) in samples {
             if let jsonData = healthKitInterface.transformData(userId: userId, samples: sampleArray) {
