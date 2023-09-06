@@ -111,6 +111,8 @@ struct HealthKitInterface {
                     let endDate = quantitySample.endDate
                     let device = quantitySample.device
                     let metadata = quantitySample.metadata
+                    let id = quantitySample.uuid.uuidString
+                    print(id)
                     
                     let data: [String: Any] = [
                         "user_id": userId,
