@@ -13,11 +13,13 @@ public class QuiltClient {
     private let apiKey: String
     private let api: String
     private let sourceId: String
+    private let tableName: String
 
     public init(apiKey: String, sourceId: String) {
         self.sourceId = sourceId
         self.apiKey = apiKey
         self.api = "https://3ykxtwpvi2.execute-api.us-east-1.amazonaws.com/Prod/users"
+        self.tableName = "quantity_type_data"
     }
     
     public func createUser(userId: String) {
@@ -62,11 +64,12 @@ public class QuiltClient {
     }
     
     
-    private func sendData(jsonData: Data, tableName: String) {
+    private func sendData(jsonData: Data) {
         let session = URLSession.shared
-        let apiUrl = URL(string: "\(api)/data?table_name=heart-rate&source_id=\(sourceId)")!
-        print(apiUrl)
+        let apiUrl = URL(string: "\(api)/data?table_name=\(tableName)&source_id=\(sourceId)")!
+
         var request = URLRequest(url: apiUrl)
+
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = jsonData
@@ -113,9 +116,9 @@ public class QuiltClient {
         
         for (sampleType, sampleArray) in samples {
             if let jsonData = healthKitInterface.transformData(userId: userId, samples: sampleArray) {
-                sendData(jsonData: jsonData, tableName:sampleType)
+                sendData(jsonData: jsonData)
             } else {
-                print("Failed to get JSON data")
+                print("Failed to transform data")
             }
         }
     }

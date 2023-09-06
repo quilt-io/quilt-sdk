@@ -127,8 +127,6 @@ struct HealthKitInterface {
                 }
             }
         }
-        print("Transforming!")
-        print(transformedData)
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: transformedData, options: [])
             return jsonData
