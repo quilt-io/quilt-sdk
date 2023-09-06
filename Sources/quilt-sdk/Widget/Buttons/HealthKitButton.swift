@@ -32,6 +32,7 @@ struct HealthKitButtonView: View {
             Button(action: {
                 if isConnectedToHealthKit {
                     // Handle disconnection logic
+                    
                 } else {
                     Task {
                         await quiltClient.getUserData(userId: userId, typesToRead: typesToRead)
